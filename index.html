@@ -3,22 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tilt Management App</title>
+    <title>TiltApp - Poker Emotion Management</title>
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <div class="app-container">
         <header>
-            <h1>Tilt Management</h1>
+            <h1>TiltApp</h1>
             <nav>
                 <ul class="nav-tabs">
-                    <li class="nav-tab active" data-tab="home">Home</li>
-                    <li class="nav-tab" data-tab="timer">Timer</li>
-                    <li class="nav-tab" data-tab="log">Emotion Log</li>
-                    <li class="nav-tab" data-tab="tips">Tips</li>
+                    <li class="nav-tab active" data-tab="home">
+                        <i class="fas fa-home"></i> Home
+                    </li>
+                    <li class="nav-tab" data-tab="timer">
+                        <i class="fas fa-hourglass-half"></i> Timer
+                    </li>
+                    <li class="nav-tab" data-tab="log">
+                        <i class="fas fa-book"></i> Emotion Log
+                    </li>
+                    <li class="nav-tab" data-tab="tips">
+                        <i class="fas fa-lightbulb"></i> Tips
+                    </li>
                 </ul>
+                <div class="tab-indicator"></div>
             </nav>
         </header>
 
@@ -26,27 +36,42 @@
             <!-- Home Section -->
             <section id="home" class="section active">
                 <div class="welcome-message">
-                    <h2>Welcome to Tilt Management</h2>
+                    <h2>Welcome to TiltApp</h2>
                     <p>Control your emotions, improve your game</p>
                 </div>
                 <div class="quick-actions">
-                    <button class="action-btn" data-goto="timer">Set Break Timer</button>
-                    <button class="action-btn" data-goto="log">Log Your Emotions</button>
-                    <button class="action-btn" data-goto="tips">View Tilt Tips</button>
+                    <button class="action-btn" data-goto="timer">
+                        <i class="fas fa-hourglass-half fa-lg" style="margin-right: 12px;"></i>
+                        <span>Set Break Timer</span>
+                    </button>
+                    <button class="action-btn" data-goto="log">
+                        <i class="fas fa-book fa-lg" style="margin-right: 12px;"></i>
+                        <span>Log Your Emotions</span>
+                    </button>
+                    <button class="action-btn" data-goto="tips">
+                        <i class="fas fa-lightbulb fa-lg" style="margin-right: 12px;"></i>
+                        <span>View Tilt Tips</span>
+                    </button>
                 </div>
                 <div class="social-share">
                     <p>Share this app:</p>
                     <div class="share-buttons">
-                        <button class="share-btn" data-platform="twitter">Twitter</button>
-                        <button class="share-btn" data-platform="facebook">Facebook</button>
-                        <button class="share-btn" data-platform="copy">Copy Link</button>
+                        <button class="share-btn" data-platform="twitter">
+                            <i class="fab fa-twitter"></i> Twitter
+                        </button>
+                        <button class="share-btn" data-platform="facebook">
+                            <i class="fab fa-facebook-f"></i> Facebook
+                        </button>
+                        <button class="share-btn" data-platform="copy">
+                            <i class="fas fa-link"></i> Copy Link
+                        </button>
                     </div>
                 </div>
             </section>
 
             <!-- Timer Section -->
             <section id="timer" class="section">
-                <h2>Break Timer</h2>
+                <h2><i class="fas fa-hourglass-half"></i> Break Timer</h2>
                 <div class="timer-display">
                     <span id="minutes">00</span>:<span id="seconds">00</span>
                 </div>
@@ -62,48 +87,60 @@
                         <label for="custom-minutes">minutes</label>
                     </div>
                     <div class="action-buttons">
-                        <button id="start-timer" class="primary-btn">Start Timer</button>
-                        <button id="stop-timer" class="secondary-btn" disabled>Stop</button>
+                        <button id="start-timer" class="primary-btn">
+                            <i class="fas fa-play"></i> Start Timer
+                        </button>
+                        <button id="stop-timer" class="secondary-btn" disabled>
+                            <i class="fas fa-stop"></i> Stop
+                        </button>
                     </div>
                 </div>
             </section>
 
             <!-- Emotional Log Section -->
             <section id="log" class="section">
-                <h2>Emotion Log</h2>
+                <h2><i class="fas fa-book"></i> Emotion Log</h2>
                 <form id="emotion-form">
                     <div class="form-group">
                         <label for="emotion-select">How are you feeling?</label>
                         <select id="emotion-select" required>
                             <option value="" disabled selected>Select emotion</option>
-                            <option value="Calm">Calm</option>
-                            <option value="Focused">Focused</option>
-                            <option value="Frustrated">Frustrated</option>
-                            <option value="Angry">Angry</option>
-                            <option value="Anxious">Anxious</option>
-                            <option value="Tilted">Tilted</option>
-                            <option value="Excited">Excited</option>
+                            <option value="Calm" data-emoji="😌">😌 Calm</option>
+                            <option value="Focused" data-emoji="🧠">🧠 Focused</option>
+                            <option value="Frustrated" data-emoji="😤">😤 Frustrated</option>
+                            <option value="Angry" data-emoji="😡">😡 Angry</option>
+                            <option value="Anxious" data-emoji="😰">😰 Anxious</option>
+                            <option value="Tilted" data-emoji="🤬">🤬 Tilted</option>
+                            <option value="Excited" data-emoji="😄">😄 Excited</option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="notes-input">Notes (optional)</label>
                         <textarea id="notes-input" placeholder="What triggered this emotion? Any other thoughts?"></textarea>
                     </div>
-                    <button type="submit" class="primary-btn">Save Log</button>
+                    <button type="submit" class="primary-btn">
+                        <i class="fas fa-save"></i> Save Log
+                    </button>
                 </form>
                 <div class="log-history">
-                    <h3>History</h3>
+                    <h3><i class="fas fa-history"></i> History</h3>
                     <div id="log-entries"></div>
                 </div>
             </section>
 
             <!-- Tips Section -->
             <section id="tips" class="section">
-                <h2>Tilt Management Tips</h2>
+                <h2><i class="fas fa-lightbulb"></i> Tilt Management Tips</h2>
                 <div class="tips-categories">
-                    <button class="category-btn active" data-category="quick">Quick Tips</button>
-                    <button class="category-btn" data-category="prevention">Prevention</button>
-                    <button class="category-btn" data-category="recovery">Recovery</button>
+                    <button class="category-btn active" data-category="quick">
+                        <i class="fas fa-bolt"></i> Quick Tips
+                    </button>
+                    <button class="category-btn" data-category="prevention">
+                        <i class="fas fa-shield-alt"></i> Prevention
+                    </button>
+                    <button class="category-btn" data-category="recovery">
+                        <i class="fas fa-heart"></i> Recovery
+                    </button>
                 </div>
                 <div class="tips-container">
                     <!-- Tips will be loaded dynamically from JS -->
@@ -112,7 +149,9 @@
         </main>
 
         <footer>
-            <p>&copy; 2025 duskyAI</p>
+            <div class="made-by">
+                <i class="fas fa-code"></i> Made with 💜 by <span>duskyAI</span>
+            </div>
         </footer>
     </div>
 

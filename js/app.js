@@ -1,5 +1,6 @@
 // DOM Elements
 const tabs = document.querySelectorAll('.nav-tab');
+const tabIndicator = document.querySelector('.tab-indicator');
 const sections = document.querySelectorAll('.section');
 const quickActionButtons = document.querySelectorAll('.action-btn');
 const durationButtons = document.querySelectorAll('.duration-btn');
@@ -9,6 +10,7 @@ const stopTimerButton = document.getElementById('stop-timer');
 const minutesDisplay = document.getElementById('minutes');
 const secondsDisplay = document.getElementById('seconds');
 const emotionForm = document.getElementById('emotion-form');
+const emotionSelect = document.getElementById('emotion-select');
 const logEntriesContainer = document.getElementById('log-entries');
 const tipsCategoryButtons = document.querySelectorAll('.category-btn');
 const tipsContainer = document.querySelector('.tips-container');
@@ -25,6 +27,9 @@ let selectedDurationButton;
 
 // ===== INITIALIZATION =====
 document.addEventListener('DOMContentLoaded', () => {
+    // Initialize tab indicator
+    positionTabIndicator(document.querySelector('.nav-tab.active'));
+    
     // Initialize emotional log display
     displayEmotionalLogs();
     
@@ -39,21 +44,40 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // ===== NAVIGATION =====
+// Position tab indicator
+function positionTabIndicator(activeTab) {
+    if (!tabIndicator || !activeTab) return;
+    
+    const width = activeTab.offsetWidth;
+    const left = activeTab.offsetLeft;
+    
+    tabIndicator.style.width = `${width}px`;
+    tabIndicator.style.transform = `translateX(${left}px)`;
+}
+
 // Tab navigation
 tabs.forEach(tab => {
     tab.addEventListener('click', () => {
+        // Don't do anything if already active
+        if (tab.classList.contains('active')) return;
+        
         // Deactivate all tabs
         tabs.forEach(t => t.classList.remove('active'));
         
         // Activate selected tab
         tab.classList.add('active');
         
+        // Position indicator
+        positionTabIndicator(tab);
+        
         // Hide all sections
         sections.forEach(section => section.classList.remove('active'));
         
         // Show selected section
         const targetSection = document.getElementById(tab.dataset.tab);
-        targetSection.classList.add('active');
+        setTimeout(() => {
+            targetSection.classList.add('active');
+        }, 10); // Small delay to ensure smooth animation
     });
 });
 
@@ -66,6 +90,11 @@ quickActionButtons.forEach(button => {
         const tab = document.querySelector(`.nav-tab[data-tab="${targetTab}"]`);
         tab.click();
     });
+});
+
+// Handle window resize for tab indicator
+window.addEventListener('resize', () => {
+    positionTabIndicator(document.querySelector('.nav-tab.active'));
 });
 
 // ===== TIMER FUNCTIONALITY =====
@@ -240,7 +269,7 @@ function checkExistingTimer() {
 
 function timerComplete() {
     // Show notification
-    showNotification('Break time is over!');
+    showNotification('Break time is over! 🕒');
     
     // Play sound (if enabled by user interaction)
     try {
@@ -256,27 +285,29 @@ function timerComplete() {
 emotionForm.addEventListener('submit', (e) => {
     e.preventDefault();
     
-    const emotion = document.getElementById('emotion-select').value;
+    const emotionOption = emotionSelect.options[emotionSelect.selectedIndex];
+    const emotion = emotionOption.value;
+    const emoji = emotionOption.dataset.emoji;
     const notes = document.getElementById('notes-input').value;
     const timestamp = new Date().toISOString();
     
     // Save log entry
-    saveEmotionalLog(emotion, notes, timestamp);
+    saveEmotionalLog(emotion, emoji, notes, timestamp);
     
     // Reset form
     emotionForm.reset();
     
     // Show notification
-    showNotification('Emotion logged successfully!');
+    showNotification('Emotion logged successfully! 👍');
     
     // Update display
     displayEmotionalLogs();
 });
 
 // Save emotional log to local storage
-function saveEmotionalLog(emotion, notes, timestamp) {
+function saveEmotionalLog(emotion, emoji, notes, timestamp) {
     const logs = getEmotionalLogs();
-    logs.push({ emotion, notes, timestamp });
+    logs.push({ emotion, emoji, notes, timestamp });
     localStorage.setItem('emotionalLogs', JSON.stringify(logs));
 }
 
@@ -305,8 +336,13 @@ function displayEmotionalLogs() {
         return `
             <div class="log-entry">
                 <div class="log-entry-header">
-                    <div class="log-entry-emotion">${log.emotion}</div>
-                    <div class="log-entry-date">${formattedDate}</div>
+                    <div class="log-entry-emotion">
+                        <span class="log-entry-emotion-emoji">${log.emoji || ''}</span>
+                        ${log.emotion}
+                    </div>
+                    <div class="log-entry-date">
+                        <i class="far fa-clock"></i> ${formattedDate}
+                    </div>
                 </div>
                 ${log.notes ? `<div class="log-entry-notes">${log.notes}</div>` : ''}
             </div>
@@ -332,7 +368,10 @@ function displayTips(category) {
     
     tipsContainer.innerHTML = tips.map(tip => `
         <div class="tip">
-            <h3>${tip.title}</h3>
+            <h3>
+                <span class="tip-emoji">${tip.emoji}</span>
+                ${tip.title}
+            </h3>
             <p>${tip.content}</p>
             ${tip.link ? `<p><a href="${tip.link}" target="_blank" rel="noopener">Learn more</a></p>` : ''}
         </div>
@@ -345,62 +384,76 @@ function getTipsByCategory(category) {
         quick: [
             {
                 title: 'Take a Deep Breath',
+                emoji: '🧘',
                 content: 'When you feel tilt coming on, pause and take 5 deep breaths. Inhale for 4 counts, hold for 4, exhale for 6.'
             },
             {
                 title: 'Step Away',
+                emoji: '🚶',
                 content: 'If you notice yourself tilting, commit to a 5-minute break away from the game. Use the timer in this app.'
             },
             {
                 title: 'Focus on Decisions, Not Results',
+                emoji: '🎯',
                 content: 'Remind yourself that poker is about making good decisions. A bad beat doesn\'t mean you made a mistake.'
             },
             {
                 title: 'Physical Reset',
+                emoji: '💪',
                 content: 'Stand up, stretch, shake out your arms and shoulders. Physical movement can help reset your mental state.'
             }
         ],
         prevention: [
             {
                 title: 'Set Session Limits',
+                emoji: '⏱️',
                 content: 'Before you start playing, set clear time and loss limits. Stick to them regardless of how you\'re feeling.'
             },
             {
                 title: 'Mindfulness Practice',
+                emoji: '🧠',
                 content: 'Regular mindfulness meditation can improve your emotional control. Even 5 minutes daily can help.'
             },
             {
                 title: 'Study Your Triggers',
+                emoji: '📝',
                 content: 'Use the Emotion Log to identify patterns in what causes your tilt. Awareness is the first step to prevention.'
             },
             {
                 title: 'Bankroll Management',
+                emoji: '💰',
                 content: 'Play at stakes where the money doesn\'t affect your emotional state. If losses hurt too much, you\'re playing too high.'
             },
             {
                 title: 'Pre-session Visualization',
+                emoji: '🌈',
                 content: 'Before playing, visualize yourself handling tough situations calmly. Mental rehearsal builds resilience.'
             }
         ],
         recovery: [
             {
                 title: 'Analyze Without Judgment',
+                emoji: '🔍',
                 content: 'After a tilting session, review what happened objectively. Focus on learning, not criticizing yourself.'
             },
             {
                 title: 'Talk It Out',
+                emoji: '💬',
                 content: 'Discuss tough hands with poker friends. Verbalization helps process emotions and gain perspective.'
             },
             {
                 title: 'Reframe the Narrative',
+                emoji: '🔄',
                 content: 'Instead of "I got unlucky," try "Variance is part of the game, and I can handle it."'
             },
             {
                 title: 'Take a Longer Break',
+                emoji: '🏝️',
                 content: 'If tilt is severe, consider taking a day off from poker. Return only when you feel emotionally balanced.'
             },
             {
                 title: 'Physical Exercise',
+                emoji: '🏃',
                 content: 'Exercise releases endorphins that can help counteract stress hormones produced during tilt episodes.'
             }
         ]
@@ -431,7 +484,7 @@ shareButtons.forEach(button => {
     button.addEventListener('click', () => {
         const platform = button.dataset.platform;
         const url = encodeURIComponent(window.location.href);
-        const text = encodeURIComponent('Check out this Tilt Management App for poker players!');
+        const text = encodeURIComponent('Check out TiltApp - Emotion management for poker players!');
         
         let shareUrl;
         
@@ -445,11 +498,11 @@ shareButtons.forEach(button => {
             case 'copy':
                 navigator.clipboard.writeText(window.location.href)
                     .then(() => {
-                        showNotification('Link copied to clipboard!');
+                        showNotification('Link copied to clipboard! 📋');
                     })
                     .catch(err => {
                         console.error('Failed to copy link:', err);
-                        showNotification('Failed to copy link.');
+                        showNotification('Failed to copy link. 😕');
                     });
                 return;
         }
