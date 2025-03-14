@@ -406,39 +406,32 @@ tipsCategoryButtons.forEach(button => {
 function displayTips(category) {
     const tips = getTipsByCategory(category);
     
-    tipsContainer.innerHTML = tips.map(tip => `
-        <div class="tip">
-            <h3>
+    // Clear the container first
+    tipsContainer.innerHTML = '';
+    
+    // Create and append each tip element
+    tips.forEach(tip => {
+        const tipElement = document.createElement('div');
+        tipElement.className = 'tip';
+        
+        tipElement.innerHTML = `
+            <div class="tip-header">
                 <span class="tip-emoji">${tip.emoji}</span>
-                ${tip.title}
-            </h3>
+                <h3>${tip.title}</h3>
+            </div>
             <div class="tip-content">
                 <p>${tip.content}</p>
-                ${tip.link ? `<p><a href="${tip.link}" target="_blank" rel="noopener">Learn more <i class="fas fa-external-link-alt"></i></a></p>` : ''}
+                ${tip.link ? `<a href="${tip.link}" target="_blank" rel="noopener">Learn more <i class="fas fa-external-link-alt"></i></a>` : ''}
             </div>
-            <i class="fas fa-chevron-down tip-toggle"></i>
-        </div>
-    `).join('');
-    
-    // Add click event listeners to tips for expand/collapse
-    document.querySelectorAll('.tip').forEach(tip => {
-        // Remove previous event listeners if any
-        const newTip = tip.cloneNode(true);
-        tip.parentNode.replaceChild(newTip, tip);
+        `;
         
-        // Add both click and touch events for better mobile compatibility
-        newTip.addEventListener('click', function(e) {
-            e.preventDefault();
-            this.classList.toggle('expanded');
-        });
-        
-        // Prevent link clicks from toggling the tip
-        newTip.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.stopPropagation();
-            });
-        });
+        tipsContainer.appendChild(tipElement);
     });
+    
+    // If no tips found
+    if (tips.length === 0) {
+        tipsContainer.innerHTML = '<div class="empty-tips">No tips available for this category</div>';
+    }
 }
 
 // Get tips by category
