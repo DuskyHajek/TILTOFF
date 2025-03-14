@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tilt Management App</title>
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <h1>Tilt Management</h1>
+            <nav>
+                <ul class="nav-tabs">
+                    <li class="nav-tab active" data-tab="home">Home</li>
+                    <li class="nav-tab" data-tab="timer">Timer</li>
+                    <li class="nav-tab" data-tab="log">Emotion Log</li>
+                    <li class="nav-tab" data-tab="tips">Tips</li>
+                </ul>
+            </nav>
+        </header>
+
+        <main>
+            <!-- Home Section -->
+            <section id="home" class="section active">
+                <div class="welcome-message">
+                    <h2>Welcome to Tilt Management</h2>
+                    <p>Control your emotions, improve your game</p>
+                </div>
+                <div class="quick-actions">
+                    <button class="action-btn" data-goto="timer">Set Break Timer</button>
+                    <button class="action-btn" data-goto="log">Log Your Emotions</button>
+                    <button class="action-btn" data-goto="tips">View Tilt Tips</button>
+                </div>
+                <div class="social-share">
+                    <p>Share this app:</p>
+                    <div class="share-buttons">
+                        <button class="share-btn" data-platform="twitter">Twitter</button>
+                        <button class="share-btn" data-platform="facebook">Facebook</button>
+                        <button class="share-btn" data-platform="copy">Copy Link</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Timer Section -->
+            <section id="timer" class="section">
+                <h2>Break Timer</h2>
+                <div class="timer-display">
+                    <span id="minutes">00</span>:<span id="seconds">00</span>
+                </div>
+                <div class="timer-controls">
+                    <div class="duration-buttons">
+                        <button class="duration-btn" data-duration="5">5 min</button>
+                        <button class="duration-btn" data-duration="10">10 min</button>
+                        <button class="duration-btn" data-duration="15">15 min</button>
+                        <button class="duration-btn" data-duration="custom">Custom</button>
+                    </div>
+                    <div class="custom-duration-input" style="display: none;">
+                        <input type="number" id="custom-minutes" min="1" max="60" value="5">
+                        <label for="custom-minutes">minutes</label>
+                    </div>
+                    <div class="action-buttons">
+                        <button id="start-timer" class="primary-btn">Start Timer</button>
+                        <button id="stop-timer" class="secondary-btn" disabled>Stop</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Emotional Log Section -->
+            <section id="log" class="section">
+                <h2>Emotion Log</h2>
+                <form id="emotion-form">
+                    <div class="form-group">
+                        <label for="emotion-select">How are you feeling?</label>
+                        <select id="emotion-select" required>
+                            <option value="" disabled selected>Select emotion</option>
+                            <option value="Calm">Calm</option>
+                            <option value="Focused">Focused</option>
+                            <option value="Frustrated">Frustrated</option>
+                            <option value="Angry">Angry</option>
+                            <option value="Anxious">Anxious</option>
+                            <option value="Tilted">Tilted</option>
+                            <option value="Excited">Excited</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="notes-input">Notes (optional)</label>
+                        <textarea id="notes-input" placeholder="What triggered this emotion? Any other thoughts?"></textarea>
+                    </div>
+                    <button type="submit" class="primary-btn">Save Log</button>
+                </form>
+                <div class="log-history">
+                    <h3>History</h3>
+                    <div id="log-entries"></div>
+                </div>
+            </section>
+
+            <!-- Tips Section -->
+            <section id="tips" class="section">
+                <h2>Tilt Management Tips</h2>
+                <div class="tips-categories">
+                    <button class="category-btn active" data-category="quick">Quick Tips</button>
+                    <button class="category-btn" data-category="prevention">Prevention</button>
+                    <button class="category-btn" data-category="recovery">Recovery</button>
+                </div>
+                <div class="tips-container">
+                    <!-- Tips will be loaded dynamically from JS -->
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 duskyAI</p>
+        </footer>
+    </div>
+
+    <!-- Notification element -->
+    <div id="notification" class="notification">
+        <p id="notification-message"></p>
+        <button id="notification-close">×</button>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+</html> 
