@@ -422,8 +422,21 @@ function displayTips(category) {
     
     // Add click event listeners to tips for expand/collapse
     document.querySelectorAll('.tip').forEach(tip => {
-        tip.addEventListener('click', function() {
+        // Remove previous event listeners if any
+        const newTip = tip.cloneNode(true);
+        tip.parentNode.replaceChild(newTip, tip);
+        
+        // Add both click and touch events for better mobile compatibility
+        newTip.addEventListener('click', function(e) {
+            e.preventDefault();
             this.classList.toggle('expanded');
+        });
+        
+        // Prevent link clicks from toggling the tip
+        newTip.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.stopPropagation();
+            });
         });
     });
 }
