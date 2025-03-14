@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>TiltApp - Poker Emotion Management</title>
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/styles.css">
@@ -14,138 +14,141 @@
         <header>
             <h1>TiltApp</h1>
             <nav>
-                <ul class="nav-tabs">
-                    <li class="nav-tab active" data-tab="home">
+                <div class="nav-tabs">
+                    <div class="nav-tab active" data-tab="home">
                         <i class="fas fa-home"></i> Home
-                    </li>
-                    <li class="nav-tab" data-tab="timer">
+                    </div>
+                    <div class="nav-tab" data-tab="timer">
                         <i class="fas fa-hourglass-half"></i> Timer
-                    </li>
-                    <li class="nav-tab" data-tab="log">
-                        <i class="fas fa-book"></i> Emotion Log
-                    </li>
-                    <li class="nav-tab" data-tab="tips">
+                    </div>
+                    <div class="nav-tab" data-tab="log">
+                        <i class="fas fa-book"></i> Log
+                    </div>
+                    <div class="nav-tab" data-tab="tips">
                         <i class="fas fa-lightbulb"></i> Tips
-                    </li>
-                </ul>
-                <div class="tab-indicator"></div>
+                    </div>
+                </div>
             </nav>
         </header>
 
         <main>
-            <!-- Home Section -->
-            <section id="home" class="section active">
-                <div class="welcome-message">
-                    <h2>Welcome to TiltApp</h2>
-                    <p>Control your emotions, improve your game</p>
-                </div>
-                <div class="quick-actions">
-                    <button class="action-btn" data-goto="timer">
-                        <i class="fas fa-hourglass-half fa-lg" style="margin-right: 12px;"></i>
-                        <span>Set Break Timer</span>
-                    </button>
-                    <button class="action-btn" data-goto="log">
-                        <i class="fas fa-book fa-lg" style="margin-right: 12px;"></i>
-                        <span>Log Your Emotions</span>
-                    </button>
-                    <button class="action-btn" data-goto="tips">
-                        <i class="fas fa-lightbulb fa-lg" style="margin-right: 12px;"></i>
-                        <span>View Tilt Tips</span>
-                    </button>
-                </div>
-                <div class="social-share">
-                    <p>Share this app:</p>
-                    <div class="share-buttons">
-                        <button class="share-btn" data-platform="twitter">
-                            <i class="fab fa-twitter"></i> Twitter
-                        </button>
-                        <button class="share-btn" data-platform="instagram">
-                            <i class="fab fa-instagram"></i> Instagram
-                        </button>
-                        <button class="share-btn" data-platform="copy">
-                            <i class="fas fa-link"></i> Copy Link
-                        </button>
+            <div class="sections-container">
+                <!-- Home Section -->
+                <section id="home" class="section active">
+                    <div class="section-content">
+                        <div class="welcome-message">
+                            <h2>Poker Emotion Control</h2>
+                            <p>Master your mindset, elevate your game</p>
+                        </div>
+                        <div class="quick-actions">
+                            <button class="action-btn" data-goto="timer">
+                                <i class="fas fa-hourglass-half fa-lg"></i>
+                                <span>Break Timer</span>
+                            </button>
+                            <button class="action-btn" data-goto="log">
+                                <i class="fas fa-book fa-lg"></i>
+                                <span>Emotion Log</span>
+                            </button>
+                            <button class="action-btn" data-goto="tips">
+                                <i class="fas fa-lightbulb fa-lg"></i>
+                                <span>Tilt Tips</span>
+                            </button>
+                        </div>
                     </div>
-                </div>
-            </section>
+                </section>
 
-            <!-- Timer Section -->
-            <section id="timer" class="section">
-                <h2><i class="fas fa-hourglass-half"></i> Break Timer</h2>
-                <div class="timer-display">
-                    <span id="minutes">00</span>:<span id="seconds">00</span>
-                </div>
-                <div class="timer-controls">
-                    <div class="duration-buttons">
-                        <button class="duration-btn" data-duration="5">5 min</button>
-                        <button class="duration-btn" data-duration="10">10 min</button>
-                        <button class="duration-btn" data-duration="15">15 min</button>
-                        <button class="duration-btn" data-duration="custom">Custom</button>
+                <!-- Timer Section -->
+                <section id="timer" class="section">
+                    <div class="section-content">
+                        <h2><i class="fas fa-hourglass-half"></i> Break Timer</h2>
+                        <div class="timer-container">
+                            <div class="timer-progress-ring">
+                                <svg class="progress-ring" width="300" height="300">
+                                    <circle class="progress-ring-circle-bg" cx="150" cy="150" r="120" />
+                                    <circle class="progress-ring-circle" cx="150" cy="150" r="120" />
+                                </svg>
+                                <div class="timer-display">
+                                    <span id="minutes">00</span><span class="timer-colon">:</span><span id="seconds">00</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="timer-controls">
+                            <div class="duration-buttons">
+                                <button class="duration-btn" data-duration="5">5 min</button>
+                                <button class="duration-btn" data-duration="10">10 min</button>
+                                <button class="duration-btn" data-duration="15">15 min</button>
+                                <button class="duration-btn" data-duration="custom">Custom</button>
+                            </div>
+                            <div class="custom-duration-input" style="display: none;">
+                                <input type="number" id="custom-minutes" min="1" max="60" value="5">
+                                <label for="custom-minutes">minutes</label>
+                            </div>
+                            <div class="action-buttons">
+                                <button id="start-timer" class="primary-btn">
+                                    <i class="fas fa-play"></i> Start Timer
+                                </button>
+                                <button id="stop-timer" class="secondary-btn" disabled>
+                                    <i class="fas fa-stop"></i> Stop
+                                </button>
+                            </div>
+                        </div>
                     </div>
-                    <div class="custom-duration-input" style="display: none;">
-                        <input type="number" id="custom-minutes" min="1" max="60" value="5">
-                        <label for="custom-minutes">minutes</label>
-                    </div>
-                    <div class="action-buttons">
-                        <button id="start-timer" class="primary-btn">
-                            <i class="fas fa-play"></i> Start Timer
-                        </button>
-                        <button id="stop-timer" class="secondary-btn" disabled>
-                            <i class="fas fa-stop"></i> Stop
-                        </button>
-                    </div>
-                </div>
-            </section>
+                </section>
 
-            <!-- Emotional Log Section -->
-            <section id="log" class="section">
-                <h2><i class="fas fa-book"></i> Emotion Log</h2>
-                <form id="emotion-form">
-                    <div class="form-group">
-                        <label for="emotion-select">How are you feeling?</label>
-                        <select id="emotion-select" required>
-                            <option value="" disabled selected>Select emotion</option>
-                            <option value="Calm" data-emoji="😌">😌 Calm</option>
-                            <option value="Focused" data-emoji="🧠">🧠 Focused</option>
-                            <option value="Frustrated" data-emoji="😤">😤 Frustrated</option>
-                            <option value="Angry" data-emoji="😡">😡 Angry</option>
-                            <option value="Anxious" data-emoji="😰">😰 Anxious</option>
-                            <option value="Tilted" data-emoji="🤬">🤬 Tilted</option>
-                            <option value="Excited" data-emoji="😄">😄 Excited</option>
-                        </select>
+                <!-- Emotional Log Section -->
+                <section id="log" class="section">
+                    <div class="section-content">
+                        <h2><i class="fas fa-book"></i> Emotion Log</h2>
+                        <form id="emotion-form">
+                            <div class="form-group">
+                                <label for="emotion-select">How are you feeling?</label>
+                                <select id="emotion-select" required>
+                                    <option value="" disabled selected>Select emotion</option>
+                                    <option value="Calm" data-emoji="😌">😌 Calm</option>
+                                    <option value="Focused" data-emoji="🧠">🧠 Focused</option>
+                                    <option value="Frustrated" data-emoji="😤">😤 Frustrated</option>
+                                    <option value="Angry" data-emoji="😡">😡 Angry</option>
+                                    <option value="Anxious" data-emoji="😰">😰 Anxious</option>
+                                    <option value="Tilted" data-emoji="🤬">🤬 Tilted</option>
+                                    <option value="Excited" data-emoji="😄">😄 Excited</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="notes-input">Notes (optional)</label>
+                                <textarea id="notes-input" placeholder="What triggered this emotion?"></textarea>
+                            </div>
+                            <button type="submit" class="primary-btn">
+                                <i class="fas fa-save"></i> Save Log
+                            </button>
+                        </form>
+                        <div class="log-history">
+                            <h3><i class="fas fa-history"></i> History</h3>
+                            <div id="log-entries"></div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="notes-input">Notes (optional)</label>
-                        <textarea id="notes-input" placeholder="What triggered this emotion? Any other thoughts?"></textarea>
-                    </div>
-                    <button type="submit" class="primary-btn">
-                        <i class="fas fa-save"></i> Save Log
-                    </button>
-                </form>
-                <div class="log-history">
-                    <h3><i class="fas fa-history"></i> History</h3>
-                    <div id="log-entries"></div>
-                </div>
-            </section>
+                </section>
 
-            <!-- Tips Section -->
-            <section id="tips" class="section">
-                <h2><i class="fas fa-lightbulb"></i> Tilt Management Tips</h2>
-                <div class="tips-categories">
-                    <button class="category-btn active" data-category="quick">
-                        <i class="fas fa-bolt"></i> Quick Tips
-                    </button>
-                    <button class="category-btn" data-category="prevention">
-                        <i class="fas fa-shield-alt"></i> Prevention
-                    </button>
-                    <button class="category-btn" data-category="recovery">
-                        <i class="fas fa-heart"></i> Recovery
-                    </button>
-                </div>
-                <div class="tips-container">
-                    <!-- Tips will be loaded dynamically from JS -->
-                </div>
-            </section>
+                <!-- Tips Section -->
+                <section id="tips" class="section">
+                    <div class="section-content">
+                        <h2><i class="fas fa-lightbulb"></i> Tilt Management Tips</h2>
+                        <div class="tips-categories">
+                            <button class="category-btn active" data-category="quick">
+                                <i class="fas fa-bolt"></i> Quick Tips
+                            </button>
+                            <button class="category-btn" data-category="prevention">
+                                <i class="fas fa-shield-alt"></i> Prevention
+                            </button>
+                            <button class="category-btn" data-category="recovery">
+                                <i class="fas fa-heart"></i> Recovery
+                            </button>
+                        </div>
+                        <div class="tips-container">
+                            <!-- Tips will be loaded dynamically from JS -->
+                        </div>
+                    </div>
+                </section>
+            </div>
         </main>
 
         <footer>

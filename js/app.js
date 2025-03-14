@@ -10,6 +10,7 @@ const startTimerButton = document.getElementById('start-timer');
 const stopTimerButton = document.getElementById('stop-timer');
 const minutesDisplay = document.getElementById('minutes');
 const secondsDisplay = document.getElementById('seconds');
+const progressRingCircle = document.querySelector('.progress-ring-circle');
 const emotionForm = document.getElementById('emotion-form');
 const emotionSelect = document.getElementById('emotion-select');
 const logEntriesContainer = document.getElementById('log-entries');
@@ -25,6 +26,7 @@ let timerInterval;
 let timerDuration = 5; // Default 5 minutes
 let timerEndTime;
 let selectedDurationButton;
+let totalTimerSeconds = 0; // Store the total seconds for progress calculation
 
 // ===== INITIALIZATION =====
 document.addEventListener('DOMContentLoaded', () => {
@@ -42,6 +44,13 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Check for any existing timer
     checkExistingTimer();
+    
+    // Initialize progress ring
+    if (progressRingCircle) {
+        const circumference = 2 * Math.PI * 120; // 2πr where r=120
+        progressRingCircle.style.strokeDasharray = `${circumference}`;
+        progressRingCircle.style.strokeDashoffset = `${circumference}`;
+    }
 });
 
 // ===== NAVIGATION =====
@@ -149,6 +158,7 @@ function startTimer(minutes) {
     stopTimer(); // Clear any existing timer
     
     const durationInSeconds = minutes * 60;
+    totalTimerSeconds = durationInSeconds; // Store total seconds for progress calculation
     
     // Calculate end time
     const now = new Date();
@@ -157,6 +167,7 @@ function startTimer(minutes) {
     // Save to local storage
     localStorage.setItem('timerEndTime', timerEndTime.toISOString());
     localStorage.setItem('timerDuration', minutes);
+    localStorage.setItem('totalTimerSeconds', totalTimerSeconds);
     
     // Update UI
     startTimerButton.disabled = true;
@@ -176,6 +187,7 @@ function stopTimer() {
     // Clear from local storage
     localStorage.removeItem('timerEndTime');
     localStorage.removeItem('timerDuration');
+    localStorage.removeItem('totalTimerSeconds');
     
     // Update UI
     startTimerButton.disabled = false;
@@ -185,6 +197,12 @@ function stopTimer() {
     
     // Reset display to selected duration
     updateTimerDisplay(timerDuration * 60);
+    
+    // Reset progress ring
+    if (progressRingCircle) {
+        const circumference = 2 * Math.PI * 120;
+        progressRingCircle.style.strokeDashoffset = `${circumference}`;
+    }
 }
 
 function updateTimerInterval() {
@@ -222,7 +240,30 @@ function updateTimerDisplay(overrideSeconds) {
     minutesDisplay.textContent = String(minutes).padStart(2, '0');
     secondsDisplay.textContent = String(seconds).padStart(2, '0');
     
+    // Update progress ring
+    if (progressRingCircle && timerEndTime) {
+        updateProgressRing(secondsRemaining);
+    }
+    
     return secondsRemaining;
+}
+
+function updateProgressRing(secondsRemaining) {
+    const storedTotalSeconds = parseInt(localStorage.getItem('totalTimerSeconds'), 10) || totalTimerSeconds;
+    const progress = secondsRemaining / storedTotalSeconds;
+    const circumference = 2 * Math.PI * 120; // 2πr where r=120
+    const offset = circumference * (1 - progress);
+    
+    progressRingCircle.style.strokeDashoffset = offset;
+    
+    // Change color based on remaining time
+    if (progress <= 0.25) {
+        progressRingCircle.style.stroke = 'var(--error)';
+    } else if (progress <= 0.5) {
+        progressRingCircle.style.stroke = 'var(--warning)';
+    } else {
+        progressRingCircle.style.stroke = 'var(--primary)';
+    }
 }
 
 function checkExistingTimer() {
@@ -236,6 +277,7 @@ function checkExistingTimer() {
             // There's an active timer, restore it
             timerEndTime = endTime;
             timerDuration = parseInt(localStorage.getItem('timerDuration'), 10) || 5;
+            totalTimerSeconds = parseInt(localStorage.getItem('totalTimerSeconds'), 10) || (timerDuration * 60);
             
             // Find and select the appropriate duration button
             const durationBtn = document.querySelector(`.duration-btn[data-duration="${timerDuration}"]`);
@@ -249,7 +291,7 @@ function checkExistingTimer() {
                 customDurationInput.style.display = 'flex';
             }
             
-            // Update UI and start interval
+            // Start the timer
             startTimerButton.disabled = true;
             stopTimerButton.disabled = false;
             durationButtons.forEach(btn => btn.disabled = true);
@@ -257,9 +299,10 @@ function checkExistingTimer() {
             
             updateTimerInterval();
         } else {
-            // Timer has expired, clean up
+            // Timer has expired
             localStorage.removeItem('timerEndTime');
             localStorage.removeItem('timerDuration');
+            localStorage.removeItem('totalTimerSeconds');
         }
     }
 }
@@ -270,7 +313,7 @@ function timerComplete() {
     
     // Play sound (if enabled by user interaction)
     try {
-        const audio = new Audio('data:audio/wav;base64,UklGRnQGAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YU8GAAB/f39/f39/f38AAIB/gH+Af4B/gH8AAH9/f39/f39/fwAAgH+Af4B/gH+AfwAAf39/f39/f39/AIB/f4B/gH+Af4B/AH9/f39/f39/f38AgH+Af4B/gH+Af4AAf39/f39/f39/fwCAf4B/gH+Af4B/gAB/f39/f39/f39/AIB/gH+Af4B/gH+AAH9/f39/f39/f38AgH+Af4B/gH+Af4AAf39/f39/f39/fwCAf4B/gH+Af4B/AICAf4CAf4B/gH+Af3+Af39/gH9/f39/f4B/f39/f39/gH+Af4B/gH+Af3+Af39/f39/f39/gH+Af4B/gH+Af3+Af39/f39/f39/gH+Af4B/gH+Af3+Af39/f39/f39/gH+Af4B/gH+Af3+Af39/f39/f39/gH+Af4B/gH+Af3+Af39/f39/f39/gH+Af4B/gH+Af4b/nf+8/+r/DAAfABwABwDO/4X/Nf/n/pr+X/5M/nL+w/5s/zkAIAFMAk0DTgT5BCEFtgTnA6YCGwGC//X9jfxJ++X6y/vy/IH+NABtAdAC1wOABIEEKgSvA8MCngFDAAf/5f3s/D78Gfwq/Iv8Cv2l/R7+bP5b/uL9LP2Z/FH8tPyI/bX+BAAtASECxQILAwoDbQKbAZMARf/j/Zn8Z/t0+vr5Efqb+m/7xvxX/r7/FwElAhEDxgM2BD4EOgQHBAMD0gF6AAX/of16/F37aPqb+j37WPzp/bL/awHdAhkEEgWgBS4GZwZVBgMGcAWPA3oBm/9e/kH9o/w//Ar84ftS/KL8hP21/v3/NgFOAlMD1wMTBOsDLQPHAiwCmQEHAYMA9P9X/wX/wP5w/kH+C/4w/oL+tv7w/jb/kP8TAHgAywDpAP4AIAFkAZwB4QE0Am0CoQKtApkCZQIfAtwBgwFAARQB9ADUAJcARAAUAM3/ff8Y/6r+Tv4Y/vL93P3i/eT96P3y/fT99P3o/dP9zP3X/ez9/v0W/ij+Q/5n/o7+nP6W/nr+Z/5R/jL+D/76/ef94f3i/ej9Av4N/hn+Hf4X/gr+/f0A/gf+HP4x/kb+Wf5c/lX+Qf43/jL+L/4t/if+HP4i/iv+Ov5G/k7+Yf5k/mP+Wf5S/lP+WP5m/nf+hf6O/pr+lv6P/oX+ef50/nn+hf6N/pP+kf6L/nv+ZP5R/kL+Qf5Q/mX+df6E/pT+lf6P/oP+df5o/mP+X/5o/nj+hf6T/pr+nP6Q/n7+af5c/lr+YP5t/nj+g/6Q/pf+lP6K/nj+Z/5L/jf+Iv4d/iD+Lf47/k7+av6D/p3+sf65/rj+sP6i/pL+gf52/m7+cf5//o7+o/64/s7+4P7l/t7+0f6//qn+kP5y/ln+SP5H/ln+dP6Q/rH+0v7y/g//G/8X/wf/7v7S/rv+qf6Z/pP+mf6g/qr+vP7P/uP+9v7//gX/CP8G/wD/9P7o/tv+zv7D/r7+wf7K/tX+4f7v/v3+B/8I/wf/Bv8D/wL///7+/vv++f75/vz+//4E/wb/Cf8K/wr/Cf8H/wT///79/vr++f74/vj++P75/vz+/f7//gP/Bv8H/wj/CP8H/wT/AP/9/vj+9P7v/uz+7P7v/vH+9f75/vz+AP8D/wX/CP8J/wn/CP8F/wL/AP/9/vr++P74/vf++P77/v3+//4B/wP/BP8E/wX/A/8B//7++v73/vX+8/7y/vP+9f74/vv+/v4B/wT/BP8F/wT/Av8A//3++/76/vn++f75/vr+/P7+/v/+Af8C/wP/A/8C/wL/Af///v7+/f78/vv++/78/v3+/v7//gD/Af8B/wL/Av8B/wH/AP/+/v7+/f78/vz+/P79/v7+/v7//v/+Af8B/wH/Af8B/wH/AP///v7+/v7+/v7+/v7+/v7+/v7+/v7+/v///wAAAAAAAAAAAAAAAAAAAAAAAAAA');
+        const audio = new Audio('data:audio/wav;base64,UklGRnQGAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YU8GAAB/f39/f39/f38AAIB/gH+Af4B/gH8AAH9/f39/f39/fwAAgH+Af4B/gH+AfwAAf39/f39/f39/AIB/f4B/gH+Af4B/AH9/f39/f39/f38AgH+Af4B/gH+Af4AAf39/f39/f39/fwCAf4B/gH+Af4B/gAB/f39/f39/f39/AIB/gH+Af4B/gH+AAH9/f39/f39/f38AgH+Af4B/gH+Af4AAf39/f39/f39/fwCAf4B/gH+Af4B/AICAf4CAf4B/gH+Af3+Af39/gH9/f39/f4B/f39/f39/gH+Af4B/gH+Af3+Af39/f39/f39/gH+Af4B/gH+Af3+Af39/f39/f39/gH+Af4B/gH+Af3+Af39/f39/f39/gH+Af4B/gH+Af3+Af39/f39/f39/gH+Af4B/gH+Af3+Af39/f39/f39/gH+Af4B/gH+Af4b/nf+8/+r/DAAfABwABwDO/4X/Nf/n/pr+X/5M/nL+w/5s/zkAIAFMAk0DTgT5BCEFtgTnA6YCGwGC//X9jfxJ++X6y/vy/IH+NABtAdAC1wOABIEEKgSvA8MCngFDAAf/5f3s/D78Gfwq/Iv8Cv2l/R7+bP5b/uL9LP2Z/FH8tPyI/bX+BAAtASECxQILAwoDbQKbAZMARf/j/Zn8Z/t0+vr5Efqb+m/7xvxX/r7/FwElAhEDxgM2BD4EOgQHBAMD0gF6AAX/of16/F37aPqb+j37WPzp/bL/awHdAhkEEgWgBS4GZwZVBgMGcAWPA3oBm/9e/kH9o/w//Ar84ftS/KL8hP21/v3/NgFOAlMD1wMTBOsDLQPHAiwCmQEHAYMA9P9X/wX/wP5w/kH+C/4w/oL+tv7w/jb/kP8TAHgAywDpAP4AIAFkAZwB4QE0Am0CoQKtApkCZQIfAtwBgwFAARQB9ADUAJcARAAUAM3/ff8Y/6r+Tv4Y/vL93P3i/eT96P3y/fT99P3o/dP9zP3X/ez9/v0W/ij+Q/5n/o7+nP6W/nr+Z/5R/jL+D/76/ef94f3i/ej9Av4N/hn+Hf4X/gr+/f0A/gf+HP4x/kb+Wf5c/lX+Qf43/jL+L/4t/if+HP4i/iv+Ov5G/k7+Yf5k/mP+Wf5S/lP+WP5m/nf+hf6O/pr+lv6P/oX+ef50/nn+hf6N/pP+kf6L/nv+ZP5R/kL+Qf5Q/mX+df6E/pT+lf6P/oP+df5o/mP+X/5o/nj+hf6T/pr+nP6Q/n7+af5c/lr+YP5t/nj+g/6Q/pf+lP6K/nj+Z/5L/jf+Iv4d/iD+Lf47/k7+av6D/p3+sf65/rj+sP6i/pL+gf52/m7+cf5//o7+o/64/s7+4P7l/t7+0f6//qn+kP5y/ln+SP5H/ln+dP6Q/rH+0v7y/g//G/8X/wf/7v7S/rv+qf6Z/pP+mf6g/qr+vP7P/uP+9v7//gX/CP8G/wD/9P7o/tv+zv7D/r7+wf7K/tX+4f7v/v3+B/8I/wf/Bv8D/wL///7+/vv++f75/vz+//4E/wb/Cf8K/wr/Cf8H/wT///79/vr++f74/vj++P75/vz+/f7//gP/Bv8H/wj/CP8H/wT/AP/9/vj+9P7v/uz+7P7v/vH+9f75/vz+AP8D/wX/CP8J/wn/CP8F/wL/AP/9/vr++P74/vf++P77/v3+//4B/wP/BP8E/wX/A/8B//7++v73/vX+8/7y/vP+9f74/vv+/v4B/wT/BP8F/wT/Av8A//3++/76/vn++f75/vr+/P7+/v/+Af8C/wP/A/8C/wL/Af///v7+/f78/vv++/78/v3+/v7//gD/Af8B/wL/Av8B/wH/AP/+/v7+/f78/vz+/P79/v7+/v7//v/+Af8B/wH/Af8B/wH/AP///v7+/v7+/v7+/v7+/v7+/v7+/v///wAAAAAAAAAAAAAAAAAAAAAAAAAA');
         audio.play();
     } catch (e) {
         console.error('Sound playback failed:', e);
