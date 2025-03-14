@@ -412,10 +412,20 @@ function displayTips(category) {
                 <span class="tip-emoji">${tip.emoji}</span>
                 ${tip.title}
             </h3>
-            <p>${tip.content}</p>
-            ${tip.link ? `<p><a href="${tip.link}" target="_blank" rel="noopener">Learn more</a></p>` : ''}
+            <div class="tip-content">
+                <p>${tip.content}</p>
+                ${tip.link ? `<p><a href="${tip.link}" target="_blank" rel="noopener">Learn more <i class="fas fa-external-link-alt"></i></a></p>` : ''}
+            </div>
+            <i class="fas fa-chevron-down tip-toggle"></i>
         </div>
     `).join('');
+    
+    // Add click event listeners to tips for expand/collapse
+    document.querySelectorAll('.tip').forEach(tip => {
+        tip.addEventListener('click', function() {
+            this.classList.toggle('expanded');
+        });
+    });
 }
 
 // Get tips by category
