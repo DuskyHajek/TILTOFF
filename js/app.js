@@ -1,6 +1,7 @@
 // DOM Elements
 const tabs = document.querySelectorAll('.nav-tab');
-const tabIndicator = document.querySelector('.tab-indicator');
+// Remove tab indicator reference
+// const tabIndicator = document.querySelector('.tab-indicator');
 const sections = document.querySelectorAll('.section');
 const quickActionButtons = document.querySelectorAll('.action-btn');
 const durationButtons = document.querySelectorAll('.duration-btn');
@@ -27,8 +28,8 @@ let selectedDurationButton;
 
 // ===== INITIALIZATION =====
 document.addEventListener('DOMContentLoaded', () => {
-    // Initialize tab indicator
-    positionTabIndicator(document.querySelector('.nav-tab.active'));
+    // Remove this line as we don't need to position the tab indicator anymore
+    // positionTabIndicator(document.querySelector('.nav-tab.active'));
     
     // Initialize emotional log display
     displayEmotionalLogs();
@@ -44,40 +45,35 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // ===== NAVIGATION =====
-// Position tab indicator
-function positionTabIndicator(activeTab) {
-    if (!tabIndicator || !activeTab) return;
-    
-    const width = activeTab.offsetWidth;
-    const left = activeTab.offsetLeft;
-    
-    tabIndicator.style.width = `${width}px`;
-    tabIndicator.style.transform = `translateX(${left}px)`;
-}
+// Remove or modify the position tab indicator function
+// function positionTabIndicator(activeTab) {
+//     if (!tabIndicator || !activeTab) return;
+//     
+//     const tabWidth = activeTab.offsetWidth;
+//     const tabLeft = activeTab.offsetLeft;
+//     
+//     tabIndicator.style.width = `${tabWidth}px`;
+//     tabIndicator.style.transform = `translateX(${tabLeft}px)`;
+// }
 
-// Tab navigation
+// Update the navigation logic to not use the tab indicator
 tabs.forEach(tab => {
     tab.addEventListener('click', () => {
-        // Don't do anything if already active
-        if (tab.classList.contains('active')) return;
-        
-        // Deactivate all tabs
+        // Remove active class from all tabs and add to clicked tab
         tabs.forEach(t => t.classList.remove('active'));
-        
-        // Activate selected tab
         tab.classList.add('active');
         
-        // Position indicator
-        positionTabIndicator(tab);
+        // No need to position the tab indicator anymore
+        // positionTabIndicator(tab);
         
-        // Hide all sections
-        sections.forEach(section => section.classList.remove('active'));
-        
-        // Show selected section
-        const targetSection = document.getElementById(tab.dataset.tab);
-        setTimeout(() => {
-            targetSection.classList.add('active');
-        }, 10); // Small delay to ensure smooth animation
+        // Show corresponding section
+        const tabId = tab.dataset.tab;
+        sections.forEach(section => {
+            section.classList.remove('active');
+            if (section.id === tabId) {
+                section.classList.add('active');
+            }
+        });
     });
 });
 
@@ -94,7 +90,8 @@ quickActionButtons.forEach(button => {
 
 // Handle window resize for tab indicator
 window.addEventListener('resize', () => {
-    positionTabIndicator(document.querySelector('.nav-tab.active'));
+    // Remove this line as we don't need to position the tab indicator anymore
+    // positionTabIndicator(document.querySelector('.nav-tab.active'));
 });
 
 // ===== TIMER FUNCTIONALITY =====
@@ -492,9 +489,16 @@ shareButtons.forEach(button => {
             case 'twitter':
                 shareUrl = `https://twitter.com/intent/tweet?url=${url}&text=${text}`;
                 break;
-            case 'facebook':
-                shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
-                break;
+            case 'instagram':
+                // Instagram doesn't have a direct link sharing API like Twitter
+                // Instead we'll show instructions or open Instagram app
+                showNotification('To share on Instagram, take a screenshot and post it to your story or feed! 📱');
+                
+                // Attempt to open Instagram app
+                setTimeout(() => {
+                    window.open('instagram://');
+                }, 1000);
+                return;
             case 'copy':
                 navigator.clipboard.writeText(window.location.href)
                     .then(() => {
