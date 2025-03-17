@@ -2,48 +2,48 @@
 
 A web-based application designed to help poker players manage their emotions, particularly tilt, during poker sessions. Tilt is a state of emotional frustration or anger that can impair decision-making and lead to further losses.
 
-## Recent Updates
-- Redesigned logo placement in header
-- Improved visual design with vector logo
-- Enhanced dark theme compatibility
-- Optimized UI for better user experience
-
 ## Features
 
 ### 1. Break Timer
 - Set scheduled breaks to step away from the game
 - Choose from predefined durations (5, 10, 15 minutes) or set a custom time
 - Timer persists even if you close the browser or switch tabs
-- Visual and audio notifications when the break is over
+- Visual progress ring shows remaining time
+- Color-coded progress indicator (green to red) as time progresses
+- Audio and visual notifications when the break is over
 
 ### 2. Emotional Logging
 - Record your emotional state during poker sessions
-- Choose from a variety of emotions (Calm, Frustrated, Angry, etc.)
-- Add notes to provide context
-- Review your emotional history to identify patterns
+- Choose from a variety of emotions:
+  - Calm
+  - Focused
+  - Frustrated
+  - Angry
+  - Anxious
+  - Tilted
+  - Excited
+- Add optional notes to provide context
+- Review your emotional history
+- Clear log functionality to reset emotional tracking
 
 ### 3. TiltOff Management Tips
-- Access a collection of tips and strategies categorized as:
-  - Quick Tips: For immediate tilt management
-  - Prevention: Strategies to avoid tilt
-  - Recovery: How to recover after a tilting session
-
-### 4. Social Sharing
-- Share the app with friends and fellow poker players
-- Integration with Twitter and Facebook
-- Copy link to clipboard functionality
+- Comprehensive collection of tips categorized as:
+  - Quick Tips: Immediate strategies to manage tilt
+  - Prevention: Techniques to avoid tilting
+  - Recovery: How to bounce back after a tilting session
+- Dynamic tip display with emojis and actionable advice
 
 ## Technical Details
 
-- **Frontend Only**: Runs entirely in the browser with no backend dependency
+- **Frontend Only**: Runs entirely in the browser
 - **Local Storage**: All data is stored locally on your device
-- **Mobile Optimized**: Designed for both mobile and desktop use
+- **Mobile Optimized**: Responsive design for mobile and desktop
 - **Dark Theme**: Easy on the eyes during long poker sessions
-- **Vector Logo**: Crisp, scalable logo design
+- **Persistent State**: Timer and logs maintain state across browser sessions
 
 ## Getting Started
 
-1. Open `index.html` in a modern web browser (Chrome, Firefox, Safari, Edge)
+1. Open `index.html` in a modern web browser
 2. No installation or account required
 3. Your data is stored only on your device
 
@@ -54,9 +54,7 @@ A web-based application designed to help poker players manage their emotions, pa
 - Safari (latest)
 - Edge (latest)
 
-## Development
-
-### File Structure
+## File Structure
 ```
 tiltoff-app/
 ├── css/
@@ -75,10 +73,18 @@ TiltOff is built with a focus on:
 - Minimalist design
 - Dark mode for reduced eye strain
 
+## Privacy
+
+This app does not collect any personal data. All information is stored locally on your device using browser localStorage.
+
 ## License
 
 MIT License
 
-## Privacy
+## Contributing
 
-This app does not collect any personal data. All information is stored locally on your device using browser localStorage. 
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## Contact
+
+Created by duskyAI - feel free to reach out with any questions or suggestions. 

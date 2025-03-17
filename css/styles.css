@@ -50,7 +50,7 @@ html, body {
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  overflow: auto;
+  overflow: visible;
 }
 
 /* Typography */
@@ -132,16 +132,17 @@ header h1 {
 /* Main Content */
 main {
   flex: 1;
-  overflow: hidden;
+  overflow: visible;
   position: relative;
 }
 
 .sections-container {
-  height: calc(100vh - 100px);
-  overflow-y: auto;
+  min-height: calc(100vh - 100px);
+  height: auto;
+  overflow-y: visible;
   -webkit-overflow-scrolling: touch;
   scroll-behavior: smooth;
-  overscroll-behavior-y: auto;
+  overscroll-behavior-y: contain;
   will-change: scroll-position;
   transition: scroll-position 0.3s ease;
 }
@@ -149,14 +150,15 @@ main {
 .section {
   display: none;
   animation: fadeIn 0.4s ease;
-  height: 100%;
+  height: auto;
+  min-height: 100%;
   will-change: opacity, transform;
   transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
 .section-content {
   padding: 0.75rem;
-  height: 100%;
+  height: auto;
   display: flex;
   flex-direction: column;
 }
@@ -646,7 +648,7 @@ main {
 .log-history {
   margin-top: 1rem;
   flex: 1;
-  overflow-y: auto;
+  overflow-y: visible;
 }
 
 .log-history h3 {
@@ -698,14 +700,14 @@ main {
 
 .tips-container {
   flex: 1;
-  overflow-y: auto;
+  overflow-y: visible;
   -webkit-overflow-scrolling: touch;
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
   margin-bottom: 1rem;
   padding-bottom: 1rem;
-  max-height: calc(100vh - 220px);
+  max-height: none;
 }
 
 .tip {
@@ -863,13 +865,13 @@ footer {
   }
 
   .sections-container {
-    scroll-padding-top: 60px;
-    scroll-snap-type: y mandatory;
+    scroll-padding-top: 0;
+    scroll-snap-type: none;
   }
 
   .section {
-    scroll-snap-align: start;
-    scroll-snap-stop: always;
+    scroll-snap-align: none;
+    scroll-snap-stop: normal;
   }
 }
 
