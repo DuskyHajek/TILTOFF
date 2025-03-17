@@ -38,6 +38,9 @@ html, body {
   overscroll-behavior-y: none;
   margin: 0;
   padding: 0;
+  scroll-behavior: smooth;
+  touch-action: pan-y;
+  -webkit-overflow-scrolling: touch;
 }
 
 .app-container {
@@ -137,12 +140,18 @@ main {
   height: calc(100vh - 100px);
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+  overscroll-behavior-y: contain;
+  will-change: scroll-position;
+  transition: scroll-position 0.3s ease;
 }
 
 .section {
   display: none;
   animation: fadeIn 0.4s ease;
   height: 100%;
+  will-change: opacity, transform;
+  transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
 .section-content {
@@ -155,6 +164,8 @@ main {
 .section.active {
   display: flex;
   flex-direction: column;
+  opacity: 1;
+  transform: translateY(0);
 }
 
 @keyframes fadeIn {
@@ -850,6 +861,16 @@ footer {
     width: 100%;
     max-width: 100%;
   }
+
+  .sections-container {
+    scroll-padding-top: 60px;
+    scroll-snap-type: y mandatory;
+  }
+
+  .section {
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
 }
 
 .section-description {
@@ -977,5 +998,18 @@ h2 {
 }
 
 .header-logo-image:hover {
+  transform: scale(1.05);
+}
+
+.reset-logs-btn {
+  margin-top: 1rem;
+  align-self: center;
+  background-color: var(--error);
+  color: var(--text-primary);
+  transition: background-color 0.3s ease;
+}
+
+.reset-logs-btn:hover {
+  background-color: #dc2626; /* Slightly darker red */
   transform: scale(1.05);
 }

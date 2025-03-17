@@ -574,4 +574,41 @@ shareButtons.forEach(button => {
             window.open(shareUrl, '_blank', 'width=600,height=400');
         }
     });
+});
+
+// Add reset logs functionality
+function resetEmotionalLogs() {
+    // Clear logs from local storage
+    localStorage.removeItem('emotionalLogs');
+    
+    // Clear the log entries container
+    if (logEntriesContainer) {
+        logEntriesContainer.innerHTML = '';
+    }
+    
+    // Show a notification
+    showNotification('All emotional logs have been cleared.');
+}
+
+// Add reset button to the log section
+document.addEventListener('DOMContentLoaded', () => {
+    const logSection = document.getElementById('log');
+    if (logSection) {
+        const resetButton = document.createElement('button');
+        resetButton.textContent = 'Clear All Logs';
+        resetButton.classList.add('secondary-btn', 'reset-logs-btn');
+        resetButton.addEventListener('click', () => {
+            // Optional: Add a confirmation dialog
+            const confirmReset = confirm('Are you sure you want to clear all emotional logs? This cannot be undone.');
+            if (confirmReset) {
+                resetEmotionalLogs();
+            }
+        });
+        
+        // Append the reset button after the log history
+        const logHistory = document.querySelector('.log-history');
+        if (logHistory) {
+            logHistory.appendChild(resetButton);
+        }
+    }
 }); 
