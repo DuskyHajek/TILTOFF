@@ -35,7 +35,7 @@ html, body {
   line-height: 1.5;
   background-color: var(--background);
   color: var(--text-primary);
-  overscroll-behavior-y: none;
+  overscroll-behavior-y: auto;
   margin: 0;
   padding: 0;
   scroll-behavior: smooth;
@@ -141,7 +141,7 @@ main {
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   scroll-behavior: smooth;
-  overscroll-behavior-y: contain;
+  overscroll-behavior-y: auto;
   will-change: scroll-position;
   transition: scroll-position 0.3s ease;
 }
