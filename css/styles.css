@@ -181,41 +181,42 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 0.5rem;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
 }
 
 .logo-container {
-  margin-bottom: 0.25rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 1rem;
 }
 
 .app-logo {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  background: var(--primary-gradient);
+  width: 250px;
+  height: 250px;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 0 20px rgba(109, 40, 217, 0.5);
-  animation: pulse 2s infinite;
+  background: none;
+  box-shadow: none;
+  animation: none;
 }
 
-@keyframes pulse {
-  0% {
-    box-shadow: 0 0 0 0 rgba(109, 40, 217, 0.7);
-  }
-  70% {
-    box-shadow: 0 0 0 15px rgba(109, 40, 217, 0);
-  }
-  100% {
-    box-shadow: 0 0 0 0 rgba(109, 40, 217, 0);
-  }
+.logo-container .app-logo .logo-image {
+  max-width: 100%;
+  max-height: 250px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+  filter: brightness(0) invert(1);
 }
 
-.app-logo i {
-  font-size: 2rem;
-  color: white;
+.logo-container .app-logo .logo-image:hover {
+  transform: scale(1.05);
 }
 
 .welcome-message {
@@ -957,4 +958,24 @@ h2 {
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
   font-size: 1.4rem;
+}
+
+/* Header Logo */
+.header-logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 0.75rem;
+  height: 50px;
+}
+
+.header-logo-image {
+  max-height: 100%;
+  width: auto;
+  filter: brightness(0) invert(1);
+  transition: transform 0.3s ease;
+}
+
+.header-logo-image:hover {
+  transform: scale(1.05);
 }

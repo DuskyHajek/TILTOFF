@@ -540,7 +540,7 @@ shareButtons.forEach(button => {
     button.addEventListener('click', () => {
         const platform = button.dataset.platform;
         const url = encodeURIComponent(window.location.href);
-        const text = encodeURIComponent('Check out TiltApp - Emotion management for poker players!');
+        const text = encodeURIComponent('Check out TiltOff - Emotion management for poker players!');
         
         let shareUrl;
         

@@ -1,6 +1,12 @@
-# Tilt Management App
+# TiltOff Management App
 
 A web-based application designed to help poker players manage their emotions, particularly tilt, during poker sessions. Tilt is a state of emotional frustration or anger that can impair decision-making and lead to further losses.
+
+## Recent Updates
+- Redesigned logo placement in header
+- Improved visual design with vector logo
+- Enhanced dark theme compatibility
+- Optimized UI for better user experience
 
 ## Features
 
@@ -16,7 +22,7 @@ A web-based application designed to help poker players manage their emotions, pa
 - Add notes to provide context
 - Review your emotional history to identify patterns
 
-### 3. Tilt Management Tips
+### 3. TiltOff Management Tips
 - Access a collection of tips and strategies categorized as:
   - Quick Tips: For immediate tilt management
   - Prevention: Strategies to avoid tilt
@@ -33,6 +39,7 @@ A web-based application designed to help poker players manage their emotions, pa
 - **Local Storage**: All data is stored locally on your device
 - **Mobile Optimized**: Designed for both mobile and desktop use
 - **Dark Theme**: Easy on the eyes during long poker sessions
+- **Vector Logo**: Crisp, scalable logo design
 
 ## Getting Started
 
@@ -51,15 +58,22 @@ A web-based application designed to help poker players manage their emotions, pa
 
 ### File Structure
 ```
-tilt-app/
+tiltoff-app/
 ├── css/
 │   ├── normalize.css  # CSS reset for consistent rendering
 │   └── styles.css     # Custom styles
 ├── js/
 │   └── app.js         # Application logic
-├── images/            # App images (if any)
+├── images/            # App images
 └── index.html         # Main HTML file
 ```
+
+## Design Philosophy
+TiltOff is built with a focus on:
+- Emotional intelligence
+- User-friendly interface
+- Minimalist design
+- Dark mode for reduced eye strain
 
 ## License
 
