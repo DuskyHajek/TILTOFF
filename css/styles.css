@@ -824,18 +824,39 @@ main {
 /* Footer */
 footer {
   background-color: var(--surface);
-  padding: 1rem;
+  padding: 1.5rem;
   text-align: center;
-  font-size: 0.875rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .made-by {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
   color: var(--text-tertiary);
+  font-size: 1rem;
 }
 
-.made-by span {
-  font-weight: 600;
-  color: var(--text-secondary);
+.duskyai-logo-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  margin-left: 0.5rem;
+}
+
+.duskyai-logo {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+.duskyai-logo:hover {
+  transform: scale(1.1);
 }
 
 /* Notification */
